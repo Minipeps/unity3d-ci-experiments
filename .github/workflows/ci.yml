@@ -1,18 +1,44 @@
-# Activation steps from https://unity-ci.com/docs/github/activation
-name: Acquire activation file
-on: [push]
+name: Actions 😎
+
+on:
+  pull_request: {}
+  push: { branches: [master] }
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
 jobs:
-  activation:
-    name: Request manual activation file 🔑
+  build:
+    name: Build my project ✨
     runs-on: ubuntu-latest
     steps:
-      - name: Request manual activation file
-        id: getManualLicenseFile
-        uses: webbertakken/unity-request-manual-activation-file@v1.1
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v2.3.2
+        with:
+          lfs: true
+
+      # Cache
+      - uses: actions/cache@v2.1.1
+        with:
+          path: Library
+          key: Library
+
+      # Test
+      - name: Run tests
+        uses: webbertakken/unity-test-runner@v1.6
         with:
           unityVersion: 2020.1.0f1
-      - name: Upload artifact
-        uses: actions/upload-artifact@v1
+
+      # Build
+      - name: Build project
+        uses: webbertakken/unity-builder@v1.2
         with:
-          name: ${{ steps.getManualLicenseFile.outputs.filePath }}
-          path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+          unityVersion: 2020.1.0f1
+          targetPlatform: WebGL
+
+      # Output
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: build
