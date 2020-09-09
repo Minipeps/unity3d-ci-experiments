@@ -45,7 +45,7 @@ jobs:
           customParameters: '-nographics'
           allowDirtyBuild: true
           unityVersion: 2020.1.0f1
-          targetPlatform: WebGL
+          targetPlatform: StandaloneWindows64
 
       # Upload build results
       - uses: actions/upload-artifact@v2
