@@ -31,6 +31,16 @@ jobs:
           customParameters: '-nographics'
           unityVersion: 2020.1.0f1
 
+      # Upload test results
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Test results (all modes)
+          path: ${{ steps.testRunner.outputs.artifactsPath }}
+      
+      # Cleanup tests results
+      - name: Cleanup artifacts folder
+        run: rm -rf ${{ steps.testRunner.outputs.artifactsPath }}
+
       # Build
       - name: Build project
         uses: webbertakken/unity-builder@v1.2
@@ -39,7 +49,7 @@ jobs:
           unityVersion: 2020.1.0f1
           targetPlatform: WebGL
 
-      # Output
+      # Upload build results
       - uses: actions/upload-artifact@v2
         with:
           name: Build
