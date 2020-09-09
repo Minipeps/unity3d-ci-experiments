@@ -28,12 +28,14 @@ jobs:
       - name: Run tests
         uses: webbertakken/unity-test-runner@v1.6
         with:
+          customParameters: '-nographics'
           unityVersion: 2020.1.0f1
 
       # Build
       - name: Build project
         uses: webbertakken/unity-builder@v1.2
         with:
+          customParameters: '-nographics'
           unityVersion: 2020.1.0f1
           targetPlatform: WebGL
 
