@@ -37,16 +37,13 @@ jobs:
         with:
           name: Test results (all modes)
           path: ${{ steps.testRunner.outputs.artifactsPath }}
-      
-      # Cleanup tests results
-      - name: Cleanup artifacts folder
-        run: rm -rf ${{ steps.testRunner.outputs.artifactsPath }}
 
       # Build
       - name: Build project
         uses: webbertakken/unity-builder@v1.2
         with:
           customParameters: '-nographics'
+          allowDirtyBuild: true
           unityVersion: 2020.1.0f1
           targetPlatform: WebGL
 
